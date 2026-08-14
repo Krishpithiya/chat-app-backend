@@ -43,9 +43,13 @@ app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 app.use('/api', apiLimiter);
 
-app.get('/api/health', (req, res) => {
-  res.json({ success: true, data: { status: 'ok', time: new Date().toISOString() } });
-});
+const healthHandler = (req, res) => {
+  res.json({ success: true, data: { status: 'ok', server: 'Chat App Backend API', time: new Date().toISOString() } });
+};
+
+app.get('/', healthHandler);
+app.get('/health', healthHandler);
+app.get('/api/health', healthHandler);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
